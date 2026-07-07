@@ -14,3 +14,13 @@ mediaForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     await searchDatabase();
 });
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await searchDatabase();
+});
