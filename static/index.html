@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Media Tracker</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/script.js" defer></script>
-  </head>
-  <body>
+</head>
+<body>
 
     <h1>Media Tracker</h1>
     <p>What next!</p>
 
-    <form action="/search-results-page" method="GET" class="search-form">
-  <input
+    <form id="search-form" action="/search-results-page" method="GET" class="search-form">
+<input
     type="search"
     name="q"
     placeholder="Search here..."
     aria-label="Search through site content"
     required
-  >
-  <button type="submit">Search</button>
+>
+<button type="submit">Search</button>
 </form>
-  </body>
+
+</body>
 </html>
