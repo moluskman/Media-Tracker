@@ -104,3 +104,49 @@ button:hover {
     background-color: var(--accent-hover);
 }
 
+#media-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.media-card {
+    background-color: var(--surface-color);
+    padding: 16px;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.media-card strong {
+    font-size: 1.1rem;
+    flex-grow: 1;
+}
+
+.badge {
+    background-color: #334155;
+    color: var(--text-main);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.media-card small {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+.empty-message {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px;
+}
+

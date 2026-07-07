@@ -4,9 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-# Initialize FastAPI
 app = FastAPI()
-
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -32,25 +30,24 @@ with sqlite3.connect("my_database.db") as conn:
 
 def get_db_connection():
     conn = sqlite3.connect("my_database.db")
-
     conn.row_factory = sqlite3.Row
     return conn
 
 
 @app.get("/api/search")
-def search_database(q: str = Query(..., min_length=1)):
+def search_database(
+    q: str = "",
+):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # prevent sql injection
         sql = "SELECT * FROM media WHERE title LIKE ? OR type LIKE ?"
         wildcard_query = f"%{q}%"
 
         cursor.execute(sql, (wildcard_query, wildcard_query))
         rows = cursor.fetchall()
 
-        # change sqlite row into python dictionary
         results = [dict(row) for row in rows]
         cursor.close()
         conn.close()
@@ -60,13 +57,7 @@ def search_database(q: str = Query(..., min_length=1)):
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
-
-
-@app.get("/api/add")
+@app.post("/api/add")
 def add_media(media: Media):
     try:
         conn = get_db_connection()
@@ -81,6 +72,12 @@ def add_media(media: Media):
         cursor.close()
         conn.close()
 
-        return JSONResponse(content={"message": "Media added successfully"})
+        return {"message": "Media added successfully"}
     except sqlite3.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
