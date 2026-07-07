@@ -14,16 +14,25 @@
         <p>What next!</p>
     </header>
 
-    <form id="search-form" action="/search-results-page" method="GET" class="search-form">
-        <input
-            type="search"
-            name="q"
-            placeholder="Search here..."
-            aria-label="Search through site content"
-            required
-            >
+    <form id="search-form" class="card">
+        <h3>Find Media</h3>
+        <input type="search" placeholder="Search your backlog..." required>
         <button type="submit">Search</button>
     </form>
+    <form id="add-form" class="card">
+        <h3>Add to Backlog</h3>
+
+        <input type="text" id="media-title" placeholder="Enter title (e.g., Elden Ring)..." required>
+
+        <input type="text" id="media-type" placeholder="Enter type (e.g., Game, Movie, Book)..." required>
+
+        <button type="submit">Add New Media</button>
+    </form>
+    <main class="container">
+        <h2>My Backlog</h2>
+        <div id="media-list"></div>
+    </main>
+
 
 </body>
 </html>
