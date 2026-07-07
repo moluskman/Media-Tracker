@@ -7,12 +7,8 @@ from pydantic import BaseModel
 # Initialize FastAPI
 app = FastAPI()
 
-# 2. Tell FastAPI to automatically serve your HTML/CSS/JS files
-# Visiting http://127.0.0.1:8000/static/index.html will load your UI
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# --- YOUR DATA MODEL GOES HERE ---
-# (Hint: Define a Pydantic BaseModel for your media input)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 class Media(BaseModel):
@@ -21,7 +17,6 @@ class Media(BaseModel):
     status: str = "Backlog"
 
 
-# --- YOUR DATABASE SETUP GOES HERE ---
 with sqlite3.connect("my_database.db") as conn:
     cursor = conn.cursor()
     cursor.execute("""
@@ -42,7 +37,6 @@ def get_db_connection():
     return conn
 
 
-# --- YOUR ROUTE LOGIC GOES HERE (@app.get and @app.post) ---
 @app.get("/api/search")
 def search_database(q: str = Query(..., min_length=1)):
     try:
