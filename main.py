@@ -15,6 +15,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # (Hint: Define a Pydantic BaseModel for your media input)
 
 
+class Media(BaseModel):
+    title: str
+    type: str
+    status: str
+
+
 # --- YOUR DATABASE SETUP GOES HERE ---
 with sqlite3.connect("my_database.db") as conn:
     cursor = conn.cursor()
@@ -65,3 +71,23 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
+
+@app.post("/add-media")
+def add_media(media: Media):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO media (title, type, status) VALUES (?, ?, ?)",
+            (media.title, media.type, media.status),
+        )
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return JSONResponse(content={"message": "Media added successfully"})
+    except sqlite3.Error as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
