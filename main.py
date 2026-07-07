@@ -18,7 +18,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # --- YOUR DATABASE SETUP GOES HERE ---
 with sqlite3.connect("my_database.db") as conn:
     cursor = conn.cursor()
-    # Create a table for media items if it doesn't exist
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS media (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
