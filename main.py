@@ -18,7 +18,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 class Media(BaseModel):
     title: str
     type: str
-    status: str
+    status: str = "Backlog"
 
 
 # --- YOUR DATABASE SETUP GOES HERE ---
@@ -50,7 +50,7 @@ def search_database(q: str = Query(..., min_length=1)):
         cursor = conn.cursor()
 
         # prevent sql injection
-        sql = "SELECT * FROM articles WHERE title LIKE ? OR content LIKE ?"
+        sql = "SELECT * FROM media WHERE title LIKE ? OR type LIKE ?"
         wildcard_query = f"%{q}%"
 
         cursor.execute(sql, (wildcard_query, wildcard_query))
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
 
 
-@app.post("/add-media")
+@app.get("/api/add")
 def add_media(media: Media):
     try:
         conn = get_db_connection()
