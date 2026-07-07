@@ -43,7 +43,7 @@ def get_db_connection():
 
 
 # --- YOUR ROUTE LOGIC GOES HERE (@app.get and @app.post) ---
-@app.get("/search-results-page")
+@app.get("/api/search")
 def search_database(q: str = Query(..., min_length=1)):
     try:
         conn = get_db_connection()
@@ -58,11 +58,10 @@ def search_database(q: str = Query(..., min_length=1)):
 
         # change sqlite row into python dictionary
         results = [dict(row) for row in rows]
-
         cursor.close()
         conn.close()
 
-        return JSONResponse(content={"query": q, "results": results})
+        return {"query": q, "results": results}
     except sqlite3.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
